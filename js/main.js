@@ -1,3 +1,6 @@
+import ipads from "../data/ipads.js";
+import navigations from "../data/navigations.js";
+
 // 장바구니
 const $basketStarterEl = document.querySelector("header .basket-starter");
 const $basketEl = $basketStarterEl.querySelector(".basket");
@@ -106,3 +109,63 @@ $pauseBtn.addEventListener("click", function () {
   $pauseBtn.classList.add("hide");
   $playBtn.classList.remove("hide");
 });
+
+// '당신에게 맞는 iPad는?'
+
+const $itemsEl = document.querySelector("section.compare .items");
+
+ipads.forEach(function (ipad) {
+  const $itemEl = document.createElement("div");
+  $itemEl.classList.add("item");
+
+  let colorList = "";
+  ipad.colors.forEach(function (color) {
+    colorList += /* html */ `<li style="background-color: ${color};"></li>`;
+  });
+
+  $itemEl.innerHTML = /* html */ `
+    <div class="thumbnail">
+      <img src="${ipad.thumbnail}" alt="${ipad.name}" />
+    </div>
+    <ul class="colors">
+      ${colorList}
+    </ul>
+    <h3 class="name">${ipad.name}</h3>
+    <p class="tagline">${ipad.tagline}</p>
+    <p class="price">₩${ipad.price.toLocaleString("en-US")}부터</p>
+    <button class="btn">구입하기</button>
+    <a class="link" href="${ipad.url}">더 알아보기</a> 
+  `;
+
+  $itemsEl.appendChild($itemEl);
+});
+
+const $navigationsEl = document.querySelector("footer .navigations");
+
+navigations.forEach(function (navigation) {
+  const $mapEl = document.createElement("div");
+  $mapEl.classList.add("map");
+
+  let mapList = "";
+
+  navigation.maps.forEach(function (map) {
+    mapList += /* HTML */ `<li>
+      <a href="${map.url}"> ${map.name} </a>
+    </li>`;
+  });
+
+  $mapEl.innerHTML = /* HTML */ `
+    <h3>
+      <span class="text">${navigation.title}</span>
+    </h3>
+    <ul>
+      ${mapList}
+    </ul>
+  `;
+
+  $navigationsEl.appendChild($mapEl);
+});
+
+const $thisYearEl = document.querySelector("span.this-year");
+
+$thisYearEl.textContent = new Date().getFullYear();
